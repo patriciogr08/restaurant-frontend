@@ -54,6 +54,27 @@ group.checkbox {
 
 }
 
+
+
+//CSS CUSTOM
+.p-datatable td, .p-datatable tr td{
+    padding: 0.1rem;
+} 
+
+
+.input-small input {
+    padding: 0.4rem;
+    width: 4rem;
+}
+
+.button-small {
+    padding: 0.4rem;
+    width: 2rem;
+}
+
+.p-dialog {
+    background-color: red;
+}
  /* Sobrescribimos el padding */
 .p-dialog .p-dialog-header {
     padding: 1rem !important; 

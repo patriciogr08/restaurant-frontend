@@ -35,6 +35,7 @@ import { ModalComandaComponent } from './components/ventas/modal-comanda/modal-c
 import { AutoCompleteModule } from 'primeng/autocomplete';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { InputMaskModule } from 'primeng/inputmask';
+import { DragDropModule } from 'primeng/dragdrop';
 
 import { FormsModule } from '@angular/forms';
 
@@ -72,7 +73,8 @@ import { FormsModule } from '@angular/forms';
     AutoCompleteModule,
     FormsModule,
     InputNumberModule,
-    InputMaskModule
+    InputMaskModule,
+    DragDropModule
   ],
   providers: [
     DialogService,

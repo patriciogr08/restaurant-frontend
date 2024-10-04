@@ -15,6 +15,8 @@ export class ModalComandaComponent implements OnInit {
   filteredProducts!: any[];
   productsSelecteds: IProduct[] = [];
   productSelect!   : IProduct;
+  clienteDrop: any;
+
   products    : IProduct[] = [
     {
       id: 1,
@@ -62,6 +64,15 @@ export class ModalComandaComponent implements OnInit {
       haveTax: true,
     },
   ];
+  
+  productsCliente: any[] = [
+    {
+      cliente: 1,
+      productos: [
+
+      ]
+    }
+  ]
 
   constructor(
     private fb: FormBuilder
@@ -82,6 +93,13 @@ export class ModalComandaComponent implements OnInit {
 
   get selectedsProducts() : FormArray {
     return this.formComanda.get('selectedsProducts') as FormArray;
+  }
+
+  addCliente() {
+    this.productsCliente.push({
+      cliente: this.productsCliente.length + 1,
+      productos: []
+    })
   }
   
   search(event: AutoCompleteCompleteEvent) {
@@ -168,5 +186,19 @@ export class ModalComandaComponent implements OnInit {
 
   calculateTaxProduct(price: number): number {
     return price * (this.tax / 100);
+  }
+
+  dragStart(product: IProduct) {
+    console.log(product)
+  }
+
+  dragEnd(product: IProduct) {
+    if( this.clienteDrop )
+      this.clienteDrop.productos.push(product);
+  }
+
+  drop(cliente: any) {
+    this.clienteDrop = cliente;
+    console.log('DROP');
   }
 }

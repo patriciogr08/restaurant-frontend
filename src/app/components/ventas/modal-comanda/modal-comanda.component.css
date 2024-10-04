@@ -1,7 +1,44 @@
 ::ng-deep .p-autocomplete  {
     margin-top: 0.5rem;
     margin-bottom: 1rem;
-    width: 100% !important;
-     
+    width: 100% !important;        
+}
+
+::ng-deep table {
+    min-width: 41rem !important;
+}
+
+.clients-container-comandas .title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.clients-container-comandas .content {
+    display: flex; 
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.clients-container-comandas .content .client-item {
+    height: 222px; 
+    width: 222px;
+    background-color: azure;
+    margin: 1rem;
+    border-radius: 5px;
+}
+
+.client-item h4 {
+    text-align: center;
+    margin: 0.5rem;
+}   
+
+.client-item ul {
+    padding: 0rem 1rem;
+}
+
+.client-item ul li {
+    list-style: none;
+    font-size: 0.8rem;
 }
 

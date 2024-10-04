@@ -30,7 +30,6 @@
                 [rowsPerPageOptions]="[5,10, 25]"
                 styleClass="p-datatable-striped p-datatable-sm"
                 [tableStyle]="{'min-width': '60rem'}">
-                
                 <ng-template pTemplate="header">
                     <tr>
                         <th class="text-center">Producto</th>
@@ -44,13 +43,23 @@
                 </ng-template>
           
               <ng-template pTemplate="body" let-producto let-index="rowIndex">
-                <tr [pSelectableRow]="producto">
+                <tr [pSelectableRow]="producto" pDraggable  (onDragStart)="dragStart(producto)"  (onDragEnd)="dragEnd(producto.value)">
                   <td class="text-center" >{{ producto.get('name')?.value }}</td>
                   <td class="text-center" >
-                    <p-inputNumber [formControl]="producto.get('price')" />
+                    <p-inputNumber class="input-small" [formControl]="producto.get('price')" />
                   </td>
                   <td class="text-center" > 
-                    <p-inputNumber inputId="integeronly" [formControl]="producto.get('quantity')" />
+                    <p-inputNumber
+                        class="input-small"
+                        [min]="1"
+                        buttonLayout="horizontal"
+                        [showButtons]="true"
+                        decrementButtonClass="p-button-danger button-small"
+                        incrementButtonClass="p-button-success button-small"
+                        incrementButtonIcon="pi pi-plus" 
+                        decrementButtonIcon="pi pi-minus" 
+                        inputId="integeronly" 
+                        [formControl]="producto.get('quantity')" />
                   </td>
                   <td class="text-center" >{{ tax }}%</td>
                   <td class="text-center" >${{ producto.get('total')?.value |  number : '1.2-2' }}</td>
@@ -81,11 +90,23 @@
                         Total:    ${{formComanda.get('tax')?.value + formComanda.get('subTotal')?.value | number : '1.2-2'}}
                     </div>
                 </div>
-            </ng-template>
+            </ng-template>  
             </p-table>
         </div>
-        <div>
-            <h5>Clientes</h5>
+        <div class="clients-container-comandas">
+            <div class="title" >
+                <h5 >Clientes </h5>
+                <button pButton size="small" type="button" icon="pi pi-plus" class="p-button-rounded  p-button-success " style="margin-left: 1rem;" (click)="addCliente()"  ></button>
+
+            </div>
+            <div class="content" >
+                <div class="client-item" *ngFor="let cliente of productsCliente;let i = index"  pDroppable (onDrop)="drop(cliente)" >
+                    <h4 >Cliente # {{cliente.cliente}}</h4> 
+                    <ul>
+                        <li *ngFor="let productCliente of cliente.productos">{{productCliente.name}} - ${{productCliente.price}}</li>
+                    </ul>
+                </div>
+            </div>
         </div>
     </form>
 </section>
