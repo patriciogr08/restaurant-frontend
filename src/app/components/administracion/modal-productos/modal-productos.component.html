@@ -1,0 +1,80 @@
+<section>
+    <form [formGroup]="formProduct">
+        <div class="form-container mt-1">
+            <div class="form-group">
+                <label for="name" class="form-label">Nombre:</label>
+                <input 
+                    pInputText 
+                    type="text"
+                    id="name"
+                    class="form-input form-control"
+                    placeholder="Ingrese el nombre"
+                    [formControl]="formProduct.controls['name'] | formControl"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="code" class="form-label">Codigo:</label>
+                <input 
+                    pInputText 
+                    type="text"
+                    id="code"
+                    class="form-input form-control"
+                    placeholder="Ingrese el codigo"
+                    [formControl]="formProduct.controls['code'] | formControl"
+                />
+            </div>
+
+            
+            <div class="form-group">
+                <label for="description" class="form-label">Descripcion:</label>
+                <input 
+                    pInputText 
+                    type="text"
+                    id="description"
+                    class="form-input form-control"
+                    placeholder="Ingrese la descripcion"
+                    [formControl]="formProduct.controls['description'] | formControl"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="price" class="form-label">Precio:</label>
+                <input 
+                    pInputText 
+                    type="text"
+                    id="price"
+                    class="form-input form-control"
+                    placeholder="Ingrese el precio"
+                    [formControl]="formProduct.controls['price'] | formControl"
+                />
+            </div>
+            
+            <div class="form-group">
+                <label for="haveTax" class="form-label">Cobra IVA:</label>
+                <input 
+                    type="checkbox"
+                    id="haveTax"
+                    class="group.checkbox form-control"
+                    [formControl]="formProduct.controls['haveTax'] | formControl"
+                />
+            </div>
+
+            <div class="form-group">
+                <label for="active" class="form-label">Activo:</label>
+                <input 
+                    type="checkbox"
+                    id="active"
+                    class="group.checkbox form-control"
+                    [formControl]="formProduct.controls['active'] | formControl"
+                />
+            </div>
+            
+        </div>
+    </form>
+
+    <div class="button-container mt-3">
+        <button pButton label="Guardar" class="p-button-primary" (click)="saveOrUpdate()"></button>
+        <button pButton label="Cancelar" class="p-button-secondary ml-2" (click)="closeModal()"></button>
+    </div>
+</section>      

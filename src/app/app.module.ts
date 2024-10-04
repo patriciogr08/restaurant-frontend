@@ -30,11 +30,13 @@ import { FormControlPipe } from './pipe/form-control.pipe';
 import { MessageService } from 'primeng/api';
 import { HttpClientModule } from '@angular/common/http';
 import { ModalMesasComponent } from './components/administracion/modal-mesas/modal-mesas.component';
+import { ModalProductosComponent } from './components/administracion/modal-productos/modal-productos.component';
+import { ModalComandaComponent } from './components/ventas/modal-comanda/modal-comanda.component';
+import { AutoCompleteModule } from 'primeng/autocomplete';
+import { InputNumberModule } from 'primeng/inputnumber';
+import { InputMaskModule } from 'primeng/inputmask';
 
-
-
-
-
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -49,6 +51,8 @@ import { ModalMesasComponent } from './components/administracion/modal-mesas/mod
     ModalMeserosComponent,
     FormControlPipe,
     ModalMesasComponent,
+    ModalProductosComponent,
+    ModalComandaComponent,
   ],
   imports: [
     HttpClientModule,
@@ -65,6 +69,10 @@ import { ModalMesasComponent } from './components/administracion/modal-mesas/mod
     TableModule,  // Importa el módulo para las tablas
     InputTextModule,
     ToastModule,
+    AutoCompleteModule,
+    FormsModule,
+    InputNumberModule,
+    InputMaskModule
   ],
   providers: [
     DialogService,

@@ -1,0 +1,16 @@
+.comanda-lista {
+    display: flex;
+    text-align: center;
+    flex-wrap: wrap;
+}
+
+.comanda-lista .comanda-lista__item {
+    background-color: beige;
+    height: 150px;
+    width: 150px;
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 100px;
+}

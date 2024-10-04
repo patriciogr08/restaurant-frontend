@@ -1,0 +1,91 @@
+<section style="width: 1450px;">
+    <form [formGroup]="formComanda" style="display: flex;">
+        <div class="form-container mt-1">
+            <div class="form-group">
+                <label for="number" class="form-label">#</label>
+                <p-inputMask 
+                    mask="99-999-999999999" 
+                    [formControl]="formComanda.controls['number'] | formControl"
+                    placeholder="9-999-999999999" />
+                </div>
+                <p-autoComplete 
+                    (onSelect)="selectProduct($event)"
+                    [dropdown]="true"
+                    formControlName="selectedProduct"
+                    [showClear]="true"
+                    appendTo="body"
+                    optionLabel="name"
+                    [suggestions]="filteredProducts"
+                    (completeMethod)="search($event)"
+                />
+                <p-table 
+                formArrayName="selectedsProducts"
+                [value]="selectedsProducts.controls"
+                selectionMode="single" dataKey="id"
+                [scrollable]="true" 
+                scrollHeight="50vh"
+                [rows]="5"
+                [showCurrentPageReport]="true"
+                currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+                [rowsPerPageOptions]="[5,10, 25]"
+                styleClass="p-datatable-striped p-datatable-sm"
+                [tableStyle]="{'min-width': '60rem'}">
+                
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th class="text-center">Producto</th>
+                        <th class="text-center">Precio</th>
+                        <th class="text-center">Unidades</th>
+                        <!-- <th class="text-center">Descuento</th> -->
+                        <th class="text-center">IVA</th>
+                        <th class="text-center">Total</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </ng-template>
+          
+              <ng-template pTemplate="body" let-producto let-index="rowIndex">
+                <tr [pSelectableRow]="producto">
+                  <td class="text-center" >{{ producto.get('name')?.value }}</td>
+                  <td class="text-center" >
+                    <p-inputNumber [formControl]="producto.get('price')" />
+                  </td>
+                  <td class="text-center" > 
+                    <p-inputNumber inputId="integeronly" [formControl]="producto.get('quantity')" />
+                  </td>
+                  <td class="text-center" >{{ tax }}%</td>
+                  <td class="text-center" >${{ producto.get('total')?.value |  number : '1.2-2' }}</td>
+                  <td class="text-center">          
+                    <button pButton type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="removeItem(index)" ></button>
+                  </td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td >No hay productos seleccionados.</td>
+                    <td ></td>
+                    <td ></td>
+                    <td ></td>
+                    <td ></td>
+                    <td ></td>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="summary">
+                <div class="text-right">
+                    <div>
+                        Subtotal: ${{formComanda.get('subTotal')?.value |  number : '1.2-2'}}
+                    </div>
+                    <div>
+                        Impuesto: ${{formComanda.get('tax')?.value |  number : '1.2-2'}}
+                    </div>
+                    <div>
+                        Total:    ${{formComanda.get('tax')?.value + formComanda.get('subTotal')?.value | number : '1.2-2'}}
+                    </div>
+                </div>
+            </ng-template>
+            </p-table>
+        </div>
+        <div>
+            <h5>Clientes</h5>
+        </div>
+    </form>
+</section>

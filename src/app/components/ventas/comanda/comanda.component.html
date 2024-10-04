@@ -1,1 +1,5 @@
-<p>comanda works!</p>
+<div class="comanda-lista">
+    <div class="comanda-lista__item" *ngFor="let comanda of comandas;index as i">
+        <button pButton type="button" icon="pi pi-table" (click)="openComanda(i)" ></button>
+    </div>
+</div>
