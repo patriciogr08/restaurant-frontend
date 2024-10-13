@@ -13,4 +13,14 @@
     justify-content: center;
     align-items: center;
     border-radius: 100px;
+    flex-direction: column;
+}
+
+.comanda-lista__item span {
+    margin-top: 0.5rem;
+    cursor: pointer;
+}
+
+.comanda-lista .comanda-lista__item.ocupado {
+    background-color: rgb(255, 207, 207);
 }

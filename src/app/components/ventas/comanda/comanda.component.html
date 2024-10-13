@@ -1,5 +1,6 @@
 <div class="comanda-lista">
-    <div class="comanda-lista__item" *ngFor="let comanda of comandas;index as i">
-        <button pButton type="button" icon="pi pi-table" (click)="openComanda(i)" ></button>
+    <div class="comanda-lista__item {{comanda.ocupado ? 'ocupado' : ''}}" *ngFor="let comanda of comandas;index as i">
+        <button pButton type="button" icon="pi pi-table" (click)="openComanda(i, false)" ></button>
+        <span *ngIf="comanda.ocupado" (click)="openComanda(i, true)">Facturar</span>
     </div>
-</div>
+</div> 

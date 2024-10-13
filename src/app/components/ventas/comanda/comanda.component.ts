@@ -19,31 +19,44 @@ export class ComandaComponent {
   comandas : IComanda[] = [
     {
       id: 1,
+      ocupado: true,
     },
     {
-      id: 2
+      id: 2,
+      ocupado: false,
     },
     {
-      id: 2
+      id: 3,
+      ocupado: false,
     },
     {
-      id: 2
+      id: 4,
+      ocupado: false,
     },
     {
-      id: 2
+      id: 5,
+      ocupado: true,
     },
     {
-      id: 2
+      id: 6,
+      ocupado: false,
     },
     {
-      id: 2
+      id: 7,
+      ocupado: true,
     },
     {
-      id: 2
+      id: 8,
+      ocupado: false,
     },
   ];
 
-  openComanda(i: number) {
-    this.dialogService.open(ModalComandaComponent, {})
+  openComanda(i: number, facturar: boolean) {
+    this.dialogService.open(ModalComandaComponent, {
+      data: {
+        facturar
+      },
+      width: facturar ? '99%' : '49%'
+    })
   }
 }

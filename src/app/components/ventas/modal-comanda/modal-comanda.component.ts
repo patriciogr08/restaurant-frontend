@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { AutoCompleteCompleteEvent } from 'primeng/autocomplete';
+import { DynamicDialogConfig } from 'primeng/dynamicdialog';
+import { IClienteComanda, IClienteProductComanda, IProductComanda } from 'src/app/interfaces/comanda';
 import { IProduct } from 'src/app/interfaces/product';
 
 @Component({
@@ -10,13 +12,18 @@ import { IProduct } from 'src/app/interfaces/product';
 })
 export class ModalComandaComponent implements OnInit {
 
-  tax         : number = 12; // CAMBIAR POR UN PARAMETRO EN LA BASE DE DATOS
-  formComanda : FormGroup;
-  filteredProducts!: any[];
-  productsSelecteds: IProduct[] = [];
-  productSelect!   : IProduct;
-  clienteDrop: any;
+  tax             : number = 12; // CAMBIAR POR UN PARAMETRO EN LA BASE DE DATOS
+  formComanda     : FormGroup;
+  formComandaAux! : FormGroup;
 
+  quantityOfProductsPassed: number = 0;
+
+  filteredProducts!    : any[];
+  productsSelecteds    : IProduct[] = [];
+  productSelect!       : IProduct;
+  clienteDrop!         : IClienteProductComanda;
+  quantityOfDrags      : number = 0;
+  ennableInvoiceCliente: boolean = false;
   products    : IProduct[] = [
     {
       id: 1,
@@ -65,18 +72,22 @@ export class ModalComandaComponent implements OnInit {
     },
   ];
   
-  productsCliente: any[] = [
+  productsCliente: IClienteProductComanda[] = [
     {
-      cliente: 1,
-      productos: [
+      cliente: {
+        id: 1
+      },
+      products: [
 
       ]
     }
   ]
 
   constructor(
-    private fb: FormBuilder
+    private config  : DynamicDialogConfig,
+    private fb      : FormBuilder
   ) {
+    this.ennableInvoiceCliente =  config.data.facturar
     this.formComanda = this.fb.group({
       number            : [null],
       selectedProduct   : [null],
@@ -97,8 +108,10 @@ export class ModalComandaComponent implements OnInit {
 
   addCliente() {
     this.productsCliente.push({
-      cliente: this.productsCliente.length + 1,
-      productos: []
+      cliente: {
+        id: this.productsCliente.length + 1
+      },
+      products: []
     })
   }
   
@@ -192,13 +205,47 @@ export class ModalComandaComponent implements OnInit {
     console.log(product)
   }
 
-  dragEnd(product: IProduct) {
-    if( this.clienteDrop )
-      this.clienteDrop.productos.push(product);
+  dragEnd(productFormControl: FormGroup) {
+    const product :IProductComanda = productFormControl.value;
+
+    const quantityOfProductsPasseds = productFormControl.get('quantity')?.value > 1 ? Number(window.prompt("Cantidad de productos pasados")) : 1;
+    
+    if( quantityOfProductsPasseds > product.quantity ) {
+      alert('Ha excedido la cantidad de productos');
+      return
+    }
+    
+    productFormControl.get('quantity')?.setValue(productFormControl.get('quantity')?.value - quantityOfProductsPasseds);
+
+    if( this.quantityOfDrags === 0 ) {
+      this.formComandaAux = this.formComanda;
+    }
+
+    if( this.clienteDrop ){
+      const PRODUCT_EXIST = this.clienteDrop.products.find( (productClienteDrop: IProductComanda) => productClienteDrop.id === product.id );
+
+      if( PRODUCT_EXIST ) {
+        PRODUCT_EXIST.quantity = PRODUCT_EXIST.quantity + quantityOfProductsPasseds;
+        PRODUCT_EXIST.total    = PRODUCT_EXIST.quantity * PRODUCT_EXIST.price;
+        return;
+      }
+
+      this.clienteDrop.products.push({
+        ...product,
+        quantity: quantityOfProductsPasseds,
+        price: product.price,
+        total: product.price * quantityOfProductsPasseds
+      });
+
+    }
+    this.quantityOfDrags++;
   }
 
   drop(cliente: any) {
     this.clienteDrop = cliente;
-    console.log('DROP');
+  }
+
+  deleteClient( clienteToDelete: IClienteProductComanda ) {
+    this.productsCliente = this.productsCliente.filter( productCliente => productCliente.cliente.id !== clienteToDelete.cliente.id);
   }
 }

@@ -4,7 +4,7 @@
     width: 100% !important;        
 }
 
-::ng-deep table {
+::ng-deep table.p-datatable-table {
     min-width: 41rem !important;
 }
 
@@ -21,8 +21,8 @@
 }
 
 .clients-container-comandas .content .client-item {
-    height: 222px; 
-    width: 222px;
+    height: 220px; 
+    width: 345px;
     background-color: azure;
     margin: 1rem;
     border-radius: 5px;
@@ -33,6 +33,15 @@
     margin: 0.5rem;
 }   
 
+.client-products-table {
+    padding: 0px;
+    width: 100%;
+}
+
+.client-products-table tr th, .client-products-table tr td {
+    text-align: center;
+}
+
 .client-item ul {
     padding: 0rem 1rem;
 }
@@ -41,4 +50,5 @@
     list-style: none;
     font-size: 0.8rem;
 }
+
 

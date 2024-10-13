@@ -1,4 +1,4 @@
-<section style="width: 1450px;">
+<section >
     <form [formGroup]="formComanda" style="display: flex;">
         <div class="form-container mt-1">
             <div class="form-group">
@@ -43,7 +43,7 @@
                 </ng-template>
           
               <ng-template pTemplate="body" let-producto let-index="rowIndex">
-                <tr [pSelectableRow]="producto" pDraggable  (onDragStart)="dragStart(producto)"  (onDragEnd)="dragEnd(producto.value)">
+                <tr [pSelectableRow]="producto" pDraggable  (onDragStart)="dragStart(producto)"  (onDragEnd)="dragEnd(producto)">
                   <td class="text-center" >{{ producto.get('name')?.value }}</td>
                   <td class="text-center" >
                     <p-inputNumber class="input-small" [formControl]="producto.get('price')" />
@@ -61,7 +61,7 @@
                         inputId="integeronly" 
                         [formControl]="producto.get('quantity')" />
                   </td>
-                  <td class="text-center" >{{ tax }}%</td>
+                  <td class="text-center" >${{ producto.get('price')?.value * (tax / 100) |  number : '1.2-2' }}</td>
                   <td class="text-center" >${{ producto.get('total')?.value |  number : '1.2-2' }}</td>
                   <td class="text-center">          
                     <button pButton type="button" icon="pi pi-times" class="p-button-rounded p-button-danger" (click)="removeItem(index)" ></button>
@@ -93,7 +93,7 @@
             </ng-template>  
             </p-table>
         </div>
-        <div class="clients-container-comandas">
+        <div class="clients-container-comandas" *ngIf="ennableInvoiceCliente">
             <div class="title" >
                 <h5 >Clientes </h5>
                 <button pButton size="small" type="button" icon="pi pi-plus" class="p-button-rounded  p-button-success " style="margin-left: 1rem;" (click)="addCliente()"  ></button>
@@ -101,10 +101,26 @@
             </div>
             <div class="content" >
                 <div class="client-item" *ngFor="let cliente of productsCliente;let i = index"  pDroppable (onDrop)="drop(cliente)" >
-                    <h4 >Cliente # {{cliente.cliente}}</h4> 
-                    <ul>
-                        <li *ngFor="let productCliente of cliente.productos">{{productCliente.name}} - ${{productCliente.price}}</li>
-                    </ul>
+                    <h4 >Cliente # {{cliente.cliente.id}} 
+                        <button pButton size="small" type="button" class="p-button-rounded p-button-danger" (click)="deleteClient(cliente)" icon="pi pi-times"></button>
+                    </h4> 
+                    <table class="client-products-table">
+                        <tr> 
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Total</th>
+                        </tr>
+                        <tr *ngFor="let productCliente of cliente.products">
+                            <td>{{productCliente.name}}</td>
+                            <td>${{productCliente.price |  number : '1.2-2'}}</td>
+                            <td>{{productCliente.quantity}}</td>
+                            <td>{{productCliente.total |  number : '1.2-2'}}</td>
+                        </tr>
+                    </table>
+                    <!-- <ul>
+                        <li *ngFor="let productCliente of cliente.productos">{{productCliente.name}} - ${{productCliente.price |  number : '1.2-2'}} - {{productCliente.quantity}}</li>
+                    </ul> -->
                 </div>
             </div>
         </div>
